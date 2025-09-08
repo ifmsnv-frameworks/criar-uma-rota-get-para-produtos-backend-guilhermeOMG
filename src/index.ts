@@ -34,8 +34,10 @@ app.get('/', async (req: Request, res: Response) => {
             database: process.env.DBNAME,
             port: Number(process.env.DBPORT)
         })
-        res.send("Conectado ao banco de dados com sucesso!");
+
+        const produtos = await connection.query('SELECT * FROM produtos');
         await connection.end();
+        res.send(produtos);
     }
     catch (error) {
         res.status(500).send("Erro ao conectar ao banco de dados: " + error);
@@ -65,3 +67,4 @@ Faz pelo menos 3 inserções nessa tabela
 app.listen(8000, () => {
     console.log('Server is running on port 8000');
 });
+
